@@ -9,8 +9,15 @@ The [Model Context Protocol](https://modelcontextprotocol.io) is an open standar
 ## Features
 
 - **Dynamic Tool Discovery**: Tools are defined in the Polar app and discovered at runtime, ensuring the MCP server stays compatible with all Polar versions
-- **Network Management**: List and create Lightning Network test networks
-- **Real-time UI Updates**: Changes made through the MCP server are immediately reflected in the Polar UI
+- **Real-time UI Updates**: All changes made through the MCP server are immediately reflected in the Polar UI
+- **Network Management**: Create, start, stop, and manage complete Lightning Network test environments with Bitcoin and Lightning nodes
+- **Bitcoin Operations**: Mine blocks, send transactions, check wallet balances, and monitor blockchain state
+- **Lightning Network**: Open and close channels, create and pay invoices, manage node wallets, and monitor network health
+- **Taproot Assets**: Mint, send, and manage Taproot Assets with full support for asset addresses and universe synchronization
+- **Asset Channels**: Fund Lightning channels with Taproot Assets and create asset-enabled payment flows
+- **Lightning Terminal**: Manage LNC sessions and create asset-backed Lightning invoices
+- **Node Management**: Add, remove, start, stop, and configure individual nodes (LND, c-lightning, Eclair, litd, tapd, bitcoind)
+- **Import/Export**: Backup and restore network configurations with ZIP file import/export
 
 ## Prerequisites
 
@@ -21,7 +28,7 @@ The [Model Context Protocol](https://modelcontextprotocol.io) is an open standar
 
 ### Option 1: Using npx (Recommended)
 
-No installation needed! Add this configuration to your MCP client.
+No installation needed! Add the below configuration to your MCP client.
 
 ### Option 2: Global Installation
 
@@ -167,90 +174,6 @@ To build from source:
 ```bash
 yarn install
 yarn build
-```
-
-## Publishing a New Version
-
-### Prerequisites
-
-1. **npm Account**: Ensure you have an npm account with publish access to the `@lightningpolar` organization
-2. **Authentication**: Log in to npm:
-   ```bash
-   npm login
-   ```
-
-### Publishing Steps
-
-1. **Ensure all changes are committed**:
-
-   ```bash
-   git status  # Should show clean working tree
-   ```
-
-2. **Build the package**:
-
-   ```bash
-   yarn install
-   yarn build
-   ```
-
-3. **Test locally** (optional but recommended):
-
-   ```bash
-   # Link the package locally
-   yarn link
-
-   # Test it works
-   polar-mcp --help  # Should run without errors
-
-   # Unlink when done testing
-   yarn unlink @lightningpolar/mcp
-   ```
-
-4. **Update the version**:
-
-   ```bash
-   # For patch releases (bug fixes): 1.0.0 -> 1.0.1
-   npm version patch
-
-   # For minor releases (new features): 1.0.0 -> 1.1.0
-   npm version minor
-
-   # For major releases (breaking changes): 1.0.0 -> 2.0.0
-   npm version major
-   ```
-
-   This will:
-
-   - Update `package.json` version
-   - Create a git commit with the version
-   - Create a git tag
-
-5. **Publish to npm**:
-
-   ```bash
-   npm publish --access public
-   ```
-
-### Automated Publishing (GitHub Actions)
-
-This package includes automated publishing via GitHub Actions. When you create a new release on GitHub:
-
-1. **Create a GitHub Release**: Go to the [Releases](https://github.com/jamaljsr/polar-mcp/releases) page and create a new release
-2. **Tag the Release**: Use a semantic version tag like `v1.0.1`
-3. **Publish**: The workflow will automatically build and publish to NPM
-
-### Testing the Published Package
-
-After publishing, test the package:
-
-```bash
-# Test with npx (no install)
-npx -y @lightningpolar/mcp
-
-# Or install globally and test
-yarn global add @lightningpolar/mcp
-polar-mcp
 ```
 
 ## Contributing
