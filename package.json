@@ -1,0 +1,52 @@
+{
+  "name": "@lightningpolar/mcp",
+  "version": "0.1.0",
+  "description": "Model Context Protocol (MCP) server for Lightning Polar - enables LLMs to interact with Polar networks",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "polar-mcp": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "prepublishOnly": "yarn run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "polar",
+    "lightning",
+    "bitcoin",
+    "llm",
+    "ai"
+  ],
+  "author": {
+    "name": "jamaljsr",
+    "email": "contact@lightningpolar.com",
+    "url": "https://lightningpolar.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jamaljsr/polar-mcp.git"
+  },
+  "homepage": "https://lightningpolar.com",
+  "bugs": {
+    "url": "https://github.com/jamaljsr/polar-mcp/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.17.19",
+    "typescript": "^5.5.4"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
+}
