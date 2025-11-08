@@ -232,6 +232,14 @@ yarn build
    npm publish --access public
    ```
 
+### Automated Publishing (GitHub Actions)
+
+This package includes automated publishing via GitHub Actions. When you create a new release on GitHub:
+
+1. **Create a GitHub Release**: Go to the [Releases](https://github.com/jamaljsr/polar-mcp/releases) page and create a new release
+2. **Tag the Release**: Use a semantic version tag like `v1.0.1`
+3. **Publish**: The workflow will automatically build and publish to NPM
+
 ### Testing the Published Package
 
 After publishing, test the package:
