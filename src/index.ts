@@ -9,17 +9,21 @@ import * as http from 'http';
 import * as https from 'https';
 
 // Polar HTTP Bridge API URL
-// This must match the port configured in electron/mcpBridge.ts
-// Can be overridden with POLAR_API_PORT environment variable
-const POLAR_API_PORT = process.env.POLAR_API_PORT || '37373';
-const POLAR_API_URL = `http://localhost:${POLAR_API_PORT}`;
+// This must match the port configured in polar/electron/mcpBridge.ts
+// Can be overridden with POLAR_MCP_PORT environment variable
+const POLAR_MCP_PORT = process.env.POLAR_MCP_PORT || '37373';
+const POLAR_MCP_URL = `http://localhost:${POLAR_MCP_PORT}`;
 
 /**
  * Makes an HTTP request to the Polar API
  */
-async function makeRequest(method: string, path: string, body?: any): Promise<any> {
+async function makeRequest(
+  method: string,
+  path: string,
+  body?: any
+): Promise<any> {
   return new Promise((resolve, reject) => {
-    const url = new URL(path, POLAR_API_URL);
+    const url = new URL(path, POLAR_MCP_URL);
     const client = url.protocol === 'https:' ? https : http;
 
     const options = {
@@ -29,10 +33,10 @@ async function makeRequest(method: string, path: string, body?: any): Promise<an
       },
     };
 
-    const req = client.request(url, options, res => {
+    const req = client.request(url, options, (res) => {
       let data = '';
 
-      res.on('data', chunk => {
+      res.on('data', (chunk) => {
         data += chunk;
       });
 
@@ -41,7 +45,9 @@ async function makeRequest(method: string, path: string, body?: any): Promise<an
           if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
             resolve(data ? JSON.parse(data) : {});
           } else {
-            reject(new Error(`HTTP ${res.statusCode}: ${data || res.statusMessage}`));
+            reject(
+              new Error(`HTTP ${res.statusCode}: ${data || res.statusMessage}`)
+            );
           }
         } catch (err) {
           reject(err);
@@ -49,12 +55,12 @@ async function makeRequest(method: string, path: string, body?: any): Promise<an
       });
     });
 
-    req.on('error', err => {
+    req.on('error', (err) => {
       if ((err as any).code === 'ECONNREFUSED') {
         reject(
           new Error(
-            'Cannot connect to Polar. Please make sure the Polar application is running.',
-          ),
+            'Cannot connect to Polar. Please make sure the Polar application is running.'
+          )
         );
       } else {
         reject(err);
@@ -92,15 +98,18 @@ async function fetchTools(retries = 3, delayMs = 1000): Promise<Tool[]> {
         console.error(
           `Failed to fetch tools (attempt ${
             i + 1
-          }/${retries}), retrying in ${delayMs}ms...`,
+          }/${retries}), retrying in ${delayMs}ms...`
         );
-        await new Promise(resolve => setTimeout(resolve, delayMs));
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
         delayMs *= 2; // Exponential backoff
       }
     }
   }
 
-  console.error('Failed to fetch tools from Polar after all retries:', lastError);
+  console.error(
+    'Failed to fetch tools from Polar after all retries:',
+    lastError
+  );
   throw lastError || new Error('Failed to fetch tools');
 }
 
@@ -134,7 +143,7 @@ async function main() {
       capabilities: {
         tools: {},
       },
-    },
+    }
   );
 
   // Cache for tools - will be populated on first request
@@ -149,7 +158,7 @@ async function main() {
   });
 
   // Handler for executing tools
-  server.setRequestHandler(CallToolRequestSchema, async request => {
+  server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const { name, arguments: args } = request.params;
 
     try {
@@ -182,7 +191,7 @@ async function main() {
   console.error('Polar MCP Server running on stdio');
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Fatal error:', err);
   process.exit(1);
 });
