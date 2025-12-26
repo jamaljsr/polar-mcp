@@ -1,6 +1,6 @@
 {
   "name": "@lightningpolar/mcp",
-  "version": "0.1.5",
+  "version": "1.0.0",
   "description": "Model Context Protocol (MCP) server for Lightning Polar - enables LLMs to interact with Polar networks",
   "type": "module",
   "main": "dist/index.js",
